@@ -1,0 +1,272 @@
+[
+  {
+    "name": "Nongshim Shin Black Ramen (Bowl)",
+    "category": "ramen",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "Individual bowl servings",
+    "totalItems": 32
+  },
+  {
+    "name": "Nongshim Bowl (Spicy) Noodle Soup",
+    "category": "ramen",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "Individual bowl servings",
+    "totalItems": 24
+  },
+  {
+    "name": "Nissin Chow Mein",
+    "category": "ramen",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "Package count",
+    "totalItems": 16
+  },
+  {
+    "name": "Nongshim Kimchi Ramen",
+    "category": "ramen",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "Package count",
+    "totalItems": 36
+  },
+  {
+    "name": "Pho Vietnamese Beef Noodle Soup",
+    "category": "ramen",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 18
+  },
+  {
+    "name": "Cup Noodles/Soup Cups",
+    "category": "ramen",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "Various visible",
+    "totalItems": 48
+  },
+  {
+    "name": "Sun Chips Variety Pack",
+    "category": "chips",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "30-count variety box",
+    "totalItems": 60
+  },
+  {
+    "name": "PopCorners Variety Pack",
+    "category": "chips",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "30-count boxes",
+    "totalItems": 30
+  },
+  {
+    "name": "Kettle Brand Chips Variety",
+    "category": "chips",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "36-count variety box",
+    "totalItems": 36
+  },
+  {
+    "name": "Shrimp Chips",
+    "category": "chips",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 72
+  },
+  {
+    "name": "Baked Chips Variety",
+    "category": "chips",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "30 count per box",
+    "totalItems": 60
+  },
+  {
+    "name": "Bold Mix Chips",
+    "category": "chips",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 52
+  },
+  {
+    "name": "Frito-Lay Classic Mix",
+    "category": "chips",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "Variety pack",
+    "totalItems": 30
+  },
+  {
+    "name": "Garden Veggie Straws Classic",
+    "category": "chips",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 76
+  },
+  {
+    "name": "Skinny Pop Popcorn Variety",
+    "category": "chips",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 84
+  },
+  {
+    "name": "Pirate Booty",
+    "category": "chips",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 40
+  },
+  {
+    "name": "Cheez-Its",
+    "category": "chips",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 45
+  },
+  {
+    "name": "Famous Amos Chocolate Chip Cookies",
+    "category": "sweets",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 42
+  },
+  {
+    "name": "Kirkland Mini Muffin Bites - Chocolate Chip",
+    "category": "sweets",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 40
+  },
+  {
+    "name": "That's It Fruit Bars - Variety Pack",
+    "category": "fruits",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 72
+  },
+  {
+    "name": "That's It Layered Fruit Bars",
+    "category": "fruits",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 84
+  },
+  {
+    "name": "Squeeze Fruit Pouches",
+    "category": "fruits",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "Estimated count",
+    "totalItems": 80
+  },
+  {
+    "name": "Pocky",
+    "category": "chocolate",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 72
+  },
+  {
+    "name": "Milano",
+    "category": "chocolate",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 60
+  },
+  {
+    "name": "Hershey",
+    "category": "chocolate",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 36
+  },
+  {
+    "name": "Nutella Dip Stick",
+    "category": "chocolate",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 48
+  },
+  {
+    "name": "Rice Krispies",
+    "category": "other",
+    "imageUrl": "https://via.placeholder.com/300",
+    "yearsOffered": [
+      2026
+    ],
+    "notes": "",
+    "totalItems": 60
+  }
+]
