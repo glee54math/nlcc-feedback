@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { CategoryTabs } from './CategoryTabs';
 import { SnackSection } from './SnackSection';
 import { CommentSection } from './CommentSection';
@@ -10,10 +10,10 @@ interface FeedbackFormProps {
   year: number;
 }
 
-export const FeedbackForm: React.FC<FeedbackFormProps> = ({
+export const FeedbackForm = ({
   snacksByCategory,
   year,
-}) => {
+}: FeedbackFormProps) => {
   const [selectedSnackIds, setSelectedSnackIds] = useState<Set<string>>(
     new Set()
   );
@@ -41,7 +41,6 @@ export const FeedbackForm: React.FC<FeedbackFormProps> = ({
       year,
     });
 
-    // Reset form on success
     if (success) {
       setSelectedSnackIds(new Set());
       setComments('');
@@ -57,16 +56,16 @@ export const FeedbackForm: React.FC<FeedbackFormProps> = ({
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-        <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
+        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
           <div className="mb-6">
-            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+            <div className="mx-auto w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
               <svg
-                className="w-8 h-8 text-green-500"
+                className="w-10 h-10 text-white"
                 fill="none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
@@ -74,17 +73,17 @@ export const FeedbackForm: React.FC<FeedbackFormProps> = ({
               </svg>
             </div>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">
             Thank You!
           </h2>
-          <p className="text-gray-600 mb-8">
+          <p className="text-gray-600 mb-8 text-lg">
             Your feedback has been submitted successfully. We appreciate you
             taking the time to help us improve the snack selection for future
             retreats!
           </p>
           <button
             onClick={handleSubmitAnother}
-            className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-600 transition-colors"
+            className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 px-6 rounded-xl font-semibold text-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             Submit Another Response
           </button>
@@ -94,26 +93,26 @@ export const FeedbackForm: React.FC<FeedbackFormProps> = ({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      {/* Header - Higher z-index */}
+      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm sticky top-0 z-30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
             Retreat Snack Feedback {year}
           </h1>
-          <p className="text-gray-600 mt-2">
+          <p className="text-gray-600 mt-2 text-lg">
             Let us know which snacks you enjoyed! Select all that apply.
           </p>
         </div>
       </header>
 
-      {/* Category Tabs */}
+      {/* Category Tabs - Lower z-index than header */}
       {categories.length > 0 && <CategoryTabs categories={categories} />}
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
+      {/* Main Content with proper margins */}
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Snack Sections */}
-        <div className="space-y-8 mb-12">
+        <div className="space-y-12 mb-12">
           {categories.map((category) => (
             <SnackSection
               key={category}
@@ -132,23 +131,41 @@ export const FeedbackForm: React.FC<FeedbackFormProps> = ({
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
-            <p className="text-red-800 text-sm">{error}</p>
+          <div className="mb-6 bg-red-50 border-2 border-red-200 rounded-xl p-4 shadow-sm">
+            <div className="flex items-center">
+              <svg className="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"/>
+              </svg>
+              <p className="text-red-800 text-sm font-medium">{error}</p>
+            </div>
           </div>
         )}
 
         {/* Submit Button */}
-        <div className="flex justify-center">
+        <div className="flex justify-center pb-8">
           <button
             onClick={handleSubmit}
             disabled={submitting}
             className="
-              bg-blue-500 text-white py-4 px-12 rounded-lg font-semibold text-lg
-              hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed
-              transition-colors shadow-lg
+              bg-gradient-to-r from-blue-500 to-indigo-600 text-white 
+              py-4 px-16 rounded-xl font-semibold text-xl
+              hover:from-blue-600 hover:to-indigo-700 
+              disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed
+              transition-all duration-200 shadow-lg hover:shadow-xl
+              transform hover:-translate-y-0.5 active:translate-y-0
             "
           >
-            {submitting ? 'Submitting...' : 'Submit Feedback'}
+            {submitting ? (
+              <span className="flex items-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Submitting...
+              </span>
+            ) : (
+              'Submit Feedback'
+            )}
           </button>
         </div>
       </main>

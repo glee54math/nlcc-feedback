@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getCategoryDisplayName, categoryToId } from '../utils/categories';
 
 interface CategoryTabsProps {
   categories: string[];
 }
 
-export const CategoryTabs: React.FC<CategoryTabsProps> = ({ categories }) => {
+export const CategoryTabs = ({ categories }: CategoryTabsProps) => {
   const [activeCategory, setActiveCategory] = useState<string>(categories[0]);
 
   const scrollToCategory = (category: string) => {
     const element = document.getElementById(categoryToId(category));
     if (element) {
-      const offset = 120; // Account for fixed header
+      const offset = 180; // Account for sticky header + tabs
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -23,10 +23,9 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({ categories }) => {
     }
   };
 
-  // Update active category on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.pageYOffset + 150;
+      const scrollPosition = window.pageYOffset + 200;
 
       for (const category of categories) {
         const element = document.getElementById(categoryToId(category));
@@ -48,26 +47,28 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({ categories }) => {
   }, [categories]);
 
   return (
-    <div className="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-sm">
-      <div className="overflow-x-auto">
-        <div className="flex space-x-1 p-2 min-w-max">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => scrollToCategory(category)}
-              className={`
-                px-6 py-3 rounded-lg font-medium text-sm whitespace-nowrap
-                transition-all duration-200
-                ${
-                  activeCategory === category
-                    ? 'bg-blue-500 text-white shadow-md'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }
-              `}
-            >
-              {getCategoryDisplayName(category)}
-            </button>
-          ))}
+    <div className="sticky top-[88px] z-20 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="overflow-x-auto scrollbar-hide">
+          <div className="flex gap-2 py-4 min-w-max">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => scrollToCategory(category)}
+                className={`
+                  px-6 py-2.5 rounded-full font-semibold text-sm whitespace-nowrap
+                  transition-all duration-300 ease-out
+                  ${
+                    activeCategory === category
+                      ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30 scale-105'
+                      : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200 hover:border-blue-300 hover:shadow-md'
+                  }
+                `}
+              >
+                {getCategoryDisplayName(category)}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
