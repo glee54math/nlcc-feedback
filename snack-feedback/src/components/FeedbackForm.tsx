@@ -94,8 +94,8 @@ export const FeedbackForm = ({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      {/* Header - Higher z-index */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm sticky top-0 z-30">
+      {/* Header */}
+      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
             Retreat Snack Feedback {year}
@@ -106,7 +106,7 @@ export const FeedbackForm = ({
         </div>
       </header>
 
-      {/* Category Tabs - Lower z-index than header */}
+      {/* Category Tabs - Now scrolls with page */}
       {categories.length > 0 && <CategoryTabs categories={categories} />}
 
       {/* Main Content with proper margins */}

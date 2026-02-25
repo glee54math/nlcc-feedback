@@ -7,11 +7,19 @@ interface CategoryTabsProps {
 
 export const CategoryTabs = ({ categories }: CategoryTabsProps) => {
   const [activeCategory, setActiveCategory] = useState<string>(categories[0]);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   const scrollToCategory = (category: string) => {
+    // Immediately set the active category (don't wait for scroll)
+    setActiveCategory(category);
+    setIsScrolling(true);
+
     const element = document.getElementById(categoryToId(category));
     if (element) {
-      const offset = 180; // Account for sticky header + tabs
+      const headerHeight = 88; // Header height
+      const tabsHeight = 64; // Category tabs height
+      const offset = headerHeight + tabsHeight + 16; // Add small buffer
+      
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -19,12 +27,19 @@ export const CategoryTabs = ({ categories }: CategoryTabsProps) => {
         top: offsetPosition,
         behavior: 'smooth',
       });
-      setActiveCategory(category);
+
+      // Re-enable scroll detection after animation completes
+      setTimeout(() => {
+        setIsScrolling(false);
+      }, 1000);
     }
   };
 
   useEffect(() => {
     const handleScroll = () => {
+      // Don't update active category while user is clicking buttons
+      if (isScrolling) return;
+
       const scrollPosition = window.pageYOffset + 200;
 
       for (const category of categories) {
@@ -44,10 +59,10 @@ export const CategoryTabs = ({ categories }: CategoryTabsProps) => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [categories]);
+  }, [categories, isScrolling]);
 
   return (
-    <div className="sticky top-[88px] z-20 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <div className="sticky top-[104px] z-20 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-md">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="overflow-x-auto scrollbar-hide">
           <div className="flex gap-2 py-4 min-w-max">
