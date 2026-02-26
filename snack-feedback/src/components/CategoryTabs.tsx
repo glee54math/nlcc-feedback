@@ -62,7 +62,7 @@ export const CategoryTabs = ({ categories }: CategoryTabsProps) => {
   }, [categories, isScrolling]);
 
   return (
-    <div className="sticky top-[104px] z-20 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-md">
+    <div className="sticky top-[104px] z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-md">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="overflow-x-auto scrollbar-hide">
           <div className="flex gap-2 py-4 min-w-max">
