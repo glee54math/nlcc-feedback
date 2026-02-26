@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { CategoryTabs } from './CategoryTabs';
 import { SnackSection } from './SnackSection';
 import { CommentSection } from './CommentSection';
+import { SelectionSidebar } from './SelectionSidebar';
 import type { SnacksByCategory } from '../types/snack';
 import { useFeedbackSubmission } from '../hooks/useFeedbackSubmission';
 
@@ -22,6 +23,16 @@ export const FeedbackForm = ({
 
   const categories = Object.keys(snacksByCategory);
 
+  // Get all snacks in a flat array
+  const allSnacks = useMemo(() => {
+    return Object.values(snacksByCategory).flat();
+  }, [snacksByCategory]);
+
+  // Get selected snacks for the sidebar
+  const selectedSnacks = useMemo(() => {
+    return allSnacks.filter((snack) => selectedSnackIds.has(snack.id));
+  }, [allSnacks, selectedSnackIds]);
+
   const handleToggleSnack = (snackId: string) => {
     setSelectedSnackIds((prev) => {
       const newSet = new Set(prev);
@@ -32,6 +43,18 @@ export const FeedbackForm = ({
       }
       return newSet;
     });
+  };
+
+  const handleRemoveSnack = (snackId: string) => {
+    setSelectedSnackIds((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(snackId);
+      return newSet;
+    });
+  };
+
+  const handleDeselectAll = () => {
+    setSelectedSnackIds(new Set());
   };
 
   const handleSubmit = async () => {
@@ -94,9 +117,9 @@ export const FeedbackForm = ({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm sticky top-0 z-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      {/* Header - Updated with semi-transparent background */}
+      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
             Retreat Snack Feedback {year}
           </h1>
@@ -106,69 +129,150 @@ export const FeedbackForm = ({
         </div>
       </header>
 
-      {/* Category Tabs - Now scrolls with page */}
+      {/* Category Tabs */}
       {categories.length > 0 && <CategoryTabs categories={categories} />}
 
-      {/* Main Content with proper margins */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Snack Sections */}
-        <div className="space-y-12 mb-12">
-          {categories.map((category) => (
-            <SnackSection
-              key={category}
-              category={category}
-              snacks={snacksByCategory[category]}
-              selectedSnackIds={selectedSnackIds}
-              onToggleSnack={handleToggleSnack}
-            />
-          ))}
-        </div>
+      {/* Main Content - Keep centered */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex gap-8">
+          {/* Left Column - Snacks Grid - Stays centered */}
+          <div className="flex-1 min-w-0">
+            {/* Snack Sections */}
+            <div className="space-y-12 mb-12">
+              {categories.map((category) => (
+                <SnackSection
+                  key={category}
+                  category={category}
+                  snacks={snacksByCategory[category]}
+                  selectedSnackIds={selectedSnackIds}
+                  onToggleSnack={handleToggleSnack}
+                />
+              ))}
+            </div>
 
-        {/* Comments Section */}
-        <div className="mb-8">
-          <CommentSection comments={comments} onCommentsChange={setComments} />
-        </div>
+            {/* Comments Section */}
+            <div className="mb-8">
+              <CommentSection
+                comments={comments}
+                onCommentsChange={setComments}
+              />
+            </div>
 
-        {/* Error Message */}
-        {error && (
-          <div className="mb-6 bg-red-50 border-2 border-red-200 rounded-xl p-4 shadow-sm">
-            <div className="flex items-center">
-              <svg className="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"/>
-              </svg>
-              <p className="text-red-800 text-sm font-medium">{error}</p>
+            {/* Error Message */}
+            {error && (
+              <div className="mb-6 bg-red-50 border-2 border-red-200 rounded-xl p-4 shadow-sm">
+                <div className="flex items-center">
+                  <svg
+                    className="w-5 h-5 text-red-500 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <p className="text-red-800 text-sm font-medium">{error}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Submit Button */}
+            <div className="flex justify-center pb-8">
+              <button
+                onClick={handleSubmit}
+                disabled={submitting}
+                className="
+                  bg-gradient-to-r from-blue-500 to-indigo-600 text-white 
+                  py-4 px-16 rounded-xl font-semibold text-xl
+                  hover:from-blue-600 hover:to-indigo-700 
+                  disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed
+                  transition-all duration-200 shadow-lg hover:shadow-xl
+                  transform hover:-translate-y-0.5 active:translate-y-0
+                "
+              >
+                {submitting ? (
+                  <span className="flex items-center">
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Submitting...
+                  </span>
+                ) : (
+                  'Submit Feedback'
+                )}
+              </button>
             </div>
           </div>
-        )}
 
-        {/* Submit Button */}
-        <div className="flex justify-center pb-8">
-          <button
-            onClick={handleSubmit}
-            disabled={submitting}
-            className="
-              bg-gradient-to-r from-blue-500 to-indigo-600 text-white 
-              py-4 px-16 rounded-xl font-semibold text-xl
-              hover:from-blue-600 hover:to-indigo-700 
-              disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed
-              transition-all duration-200 shadow-lg hover:shadow-xl
-              transform hover:-translate-y-0.5 active:translate-y-0
-            "
-          >
-            {submitting ? (
-              <span className="flex items-center">
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Submitting...
-              </span>
-            ) : (
-              'Submit Feedback'
-            )}
-          </button>
+          {/* Right Column - Selection Sidebar (Desktop Only) - Absolutely positioned to right edge */}
+          <div className="hidden lg:block w-80 flex-shrink-0">
+            <div className="fixed right-8 top-[216px] w-85">
+              <SelectionSidebar
+                selectedSnacks={selectedSnacks}
+                onRemoveSnack={handleRemoveSnack}
+                onDeselectAll={handleDeselectAll}
+              />
+            </div>
+          </div>
         </div>
-      </main>
+      </div>
+
+      {/* Mobile Selection Summary (Bottom Bar for Mobile) */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-gray-200 shadow-lg z-30 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-semibold text-gray-900">
+              {selectedSnacks.length} snacks selected
+            </p>
+            {selectedSnacks.length > 0 && (
+              <button
+                onClick={handleDeselectAll}
+                className="text-xs text-red-600 hover:text-red-700 font-medium"
+              >
+                Deselect all
+              </button>
+            )}
+          </div>
+          {selectedSnacks.length > 0 && (
+            <div className="flex gap-2 overflow-x-auto max-w-[200px]">
+              {selectedSnacks.slice(0, 5).map((snack) => (
+                <img
+                  key={snack.id}
+                  src={snack.imageUrl}
+                  alt={snack.name}
+                  className="w-10 h-10 object-cover rounded-lg flex-shrink-0 ring-2 ring-blue-500"
+                />
+              ))}
+              {selectedSnacks.length > 5 && (
+                <div className="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span className="text-xs font-bold text-gray-600">
+                    +{selectedSnacks.length - 5}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
