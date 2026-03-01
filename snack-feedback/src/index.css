@@ -7,6 +7,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  /* Disable pull-to-refresh on iOS/mobile */
+  overscroll-behavior-y: contain;
+}
+
+/* Additional fix for iOS Safari */
+html {
+  overscroll-behavior: none;
 }
 
 /* Hide scrollbar for horizontal scrolling category tabs */
@@ -21,12 +29,9 @@ body {
 
 /* Bounce animation for checkmark */
 @keyframes bounce-once {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: scale(1);
   }
-
   50% {
     transform: scale(1.2);
   }

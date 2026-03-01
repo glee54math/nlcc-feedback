@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   getAllSnacks,
   addSnack,
@@ -8,13 +8,12 @@ import {
 import type { Snack } from '../types/snack';
 import { SNACK_CATEGORIES } from '../utils/categories';
 
-export const AdminPage: React.FC = () => {
+export const AdminPage = () => {
   const [snacks, setSnacks] = useState<Snack[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingSnack, setEditingSnack] = useState<Snack | null>(null);
 
-  // Form state
   const [formData, setFormData] = useState({
     name: '',
     category: 'chips' as string,
@@ -41,17 +40,20 @@ export const AdminPage: React.FC = () => {
   const handleAddSnack = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await addSnack({
+      // addSnack now automatically uses snack name as document ID
+      const newSnackId = await addSnack({
         name: formData.name,
         category: formData.category,
         imageUrl: formData.imageUrl,
         yearsOffered: [formData.year],
       });
+      
+      console.log(`✅ Added snack with ID: ${newSnackId}`);
       await loadSnacks();
       resetForm();
     } catch (error) {
       console.error('Error adding snack:', error);
-      alert('Failed to add snack');
+      alert('Failed to add snack: ' + (error instanceof Error ? error.message : 'Unknown error'));
     }
   };
 
@@ -146,9 +148,8 @@ export const AdminPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <h1 className="text-3xl font-bold text-gray-900">
             Snack Admin Panel
           </h1>
@@ -158,8 +159,7 @@ export const AdminPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        {/* Add Snack Button */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6">
           <button
             onClick={() => setShowAddForm(!showAddForm)}
@@ -169,7 +169,6 @@ export const AdminPage: React.FC = () => {
           </button>
         </div>
 
-        {/* Add/Edit Form */}
         {showAddForm && (
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
@@ -193,6 +192,9 @@ export const AdminPage: React.FC = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="e.g., Doritos Nacho Cheese"
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Document ID will be: {formData.name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim() || '(enter name)'}
+                </p>
               </div>
 
               <div>
@@ -266,7 +268,6 @@ export const AdminPage: React.FC = () => {
           </div>
         )}
 
-        {/* Snacks List */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -277,6 +278,9 @@ export const AdminPage: React.FC = () => {
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Category
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Document ID
                   </th>
                   {years.map((year) => (
                     <th
@@ -309,13 +313,16 @@ export const AdminPage: React.FC = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {snack.category}
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-400 font-mono">
+                      {snack.id}
+                    </td>
                     {years.map((year) => (
                       <td key={year} className="px-6 py-4 whitespace-nowrap text-center">
                         <button
                           onClick={() => handleToggleYear(snack, year)}
                           className={`
                             w-8 h-8 rounded-full flex items-center justify-center
-                            transition-colors
+                            transition-colors mx-auto
                             ${
                               snack.yearsOffered.includes(year)
                                 ? 'bg-green-500 hover:bg-green-600'

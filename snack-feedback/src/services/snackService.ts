@@ -1,6 +1,6 @@
 import {
   collection,
-  addDoc,
+  setDoc,
   getDocs,
   query,
   where,
@@ -15,6 +15,16 @@ import type { Feedback, FeedbackSubmission } from '../types/feedback';
 
 const SNACKS_COLLECTION = 'snacks';
 const FEEDBACK_COLLECTION = 'feedback';
+
+// Helper: Convert snack name to valid document ID
+function sanitizeDocId(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+    .replace(/\s+/g, '-')         // Replace spaces with hyphens
+    .replace(/-+/g, '-')          // Replace multiple hyphens with single
+    .trim();
+}
 
 // Snack Operations
 export const getSnacksByYear = async (year: number): Promise<Snack[]> => {
@@ -40,17 +50,22 @@ export const getAllSnacks = async (): Promise<Snack[]> => {
   })) as Snack[];
 };
 
+// Updated: Use snack name as document ID
 export const addSnack = async (
   snack: Omit<Snack, 'id' | 'createdAt'>
 ): Promise<string> => {
-  const snacksRef = collection(db, SNACKS_COLLECTION);
-  const docRef = await addDoc(snacksRef, {
+  const docId = sanitizeDocId(snack.name);
+  const snackRef = doc(db, SNACKS_COLLECTION, docId);
+  
+  await setDoc(snackRef, {
     ...snack,
     createdAt: Timestamp.now(),
   });
-  return docRef.id;
+  
+  return docId;
 };
 
+// Updated: Use snack name as document ID for updates
 export const updateSnack = async (
   snackId: string,
   updates: Partial<Omit<Snack, 'id' | 'createdAt'>>
@@ -69,11 +84,17 @@ export const submitFeedback = async (
   feedback: FeedbackSubmission
 ): Promise<string> => {
   const feedbackRef = collection(db, FEEDBACK_COLLECTION);
-  const docRef = await addDoc(feedbackRef, {
+  
+  // Generate a timestamp-based ID for feedback
+  const timestamp = Date.now();
+  const feedbackDocRef = doc(feedbackRef, `feedback-${timestamp}`);
+  
+  await setDoc(feedbackDocRef, {
     ...feedback,
     timestamp: Timestamp.now(),
   });
-  return docRef.id;
+  
+  return feedbackDocRef.id;
 };
 
 export const getFeedbackByYear = async (year: number): Promise<Feedback[]> => {
@@ -86,4 +107,9 @@ export const getFeedbackByYear = async (year: number): Promise<Feedback[]> => {
     ...doc.data(),
     timestamp: doc.data().timestamp?.toDate() || new Date(),
   })) as Feedback[];
+};
+
+// Helper function to get snack ID from name (useful for admin operations)
+export const getSnackIdFromName = (name: string): string => {
+  return sanitizeDocId(name);
 };
