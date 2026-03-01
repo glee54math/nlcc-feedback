@@ -28,8 +28,8 @@ export const CommentSection = ({
         id="comments"
         value={comments}
         onChange={(e) => onCommentsChange(e.target.value)}
-        rows={6}
-        placeholder="Example: 'I loved that you had Hello Panda and ramen.' or 'It would be awesome to see more fruits and drinks.'"
+        rows={7}
+        placeholder="Example: 'I loved that you had Pocky and the non-spicy ramen.' or 'It would be awesome to see more fruits and drinks.'"
         className="
           w-full px-4 py-3 border-2 border-gray-200 rounded-xl
           focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500
