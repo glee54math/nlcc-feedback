@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { FeedbackPage } from './pages/FeedbackPage';
 import { AdminPage } from './pages/AdminPage';
 
